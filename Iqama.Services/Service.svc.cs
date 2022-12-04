@@ -1,5 +1,8 @@
-﻿using Iqama.Data.DataTransfer.Request;
+﻿using System;
+using Iqama.Data.DataTransfer.Request;
 using Iqama.Data.DataTransfer.Response;
+using Iqama.Infrastructure.Config;
+using Iqama.Infrastructure.Repositories;
 
 namespace Iqama.Services
 {
@@ -8,6 +11,19 @@ namespace Iqama.Services
     {
         public CompanyPriceContract GetPolicyPrice(PolicyEntity policyEntity)
         {
+            try
+            {
+                using (var context = new IqamaDbContext())
+                {
+                    var policyRepository = new PolicyRepository(context);
+                    var res = policyRepository.AddPolicy(policyEntity);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             return new CompanyPriceContract()
             {
                 PolicyNumber = "65",

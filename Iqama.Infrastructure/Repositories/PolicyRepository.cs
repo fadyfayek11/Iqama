@@ -1,4 +1,7 @@
 ﻿using System;
+using Iqama.Data.DataTransfer.Request;
+using Iqama.Data.DataTransfer.Response;
+using Iqama.Data.Models;
 using Iqama.Data.Repositories;
 using Iqama.Infrastructure.Config;
 
@@ -12,11 +15,11 @@ namespace Iqama.Infrastructure.Repositories
         {
             _dbContext = dbContext;
         }
-        public void AddPolicy()
+        public CompanyPriceContract AddPolicy(PolicyEntity policy)
         {
             try
             {
-                _dbContext.TRX.Add(new Data.Models.TRX(){Id="14"});
+                _dbContext.TRX.Add(MapPolicyToTRX(policy));
                 _dbContext.SaveChanges();
             }
             catch (Exception e)
@@ -24,6 +27,20 @@ namespace Iqama.Infrastructure.Repositories
                 Console.WriteLine(e);
                 throw;
             }
+            return new CompanyPriceContract();
+        }
+
+        private static TRX MapPolicyToTRX(PolicyEntity policy)
+        {
+            var trx = new TRX
+            {
+                ENumber = policy.eNumber,
+                Email = policy.Email,
+                City = policy.City,
+                NationalityCode = policy.Nationality,
+            };
+
+            return trx;
         }
     }
 }

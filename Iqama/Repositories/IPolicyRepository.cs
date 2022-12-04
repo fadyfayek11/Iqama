@@ -1,7 +1,10 @@
-﻿namespace Iqama.Data.Repositories
+﻿using Iqama.Data.DataTransfer.Request;
+using Iqama.Data.DataTransfer.Response;
+
+namespace Iqama.Data.Repositories
 {
     public interface IPolicyRepository
     {
-        void AddPolicy();
+        CompanyPriceContract AddPolicy(PolicyEntity policy);
     }
 }
